@@ -19,11 +19,17 @@ enum Role {
   MEMBER
 }
 
+enum OTPType {
+  RESET_PASSWORD
+  REGISTER
+}
+
 model User {
-  id       Int    @id @default(autoincrement())
-  phone    String @unique
-  password String
+  id       Int     @id @default(autoincrement())
+  phone    String  @unique
+  password String?
   verified Boolean @default(false)
+  completed Boolean @default(false)
 
   avatarUrl String?
   bio       String?
@@ -42,6 +48,20 @@ model User {
 
   blocked   Boolean  @default(false)
   createdAt DateTime @default(now())
+}
+
+model OTP {
+  id        Int      @id @default(autoincrement())
+  phone     String
+  code      String
+  type      OTPType
+  createdAt DateTime @default(now())
+  expireAt  DateTime
+  updatedAt  DateTime
+
+
+  @@index([phone])
+  @@unique([phone, type])
 }
 
 model Plan {
