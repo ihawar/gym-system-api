@@ -14,6 +14,7 @@ datasource db {
 }
 
 enum Role {
+  OWNER
   ADMIN
   COACH
   MEMBER
@@ -86,23 +87,22 @@ model Exercise {
   guideUrl    String?
   name        String
   description String?
-  repeats     Int     @default(1)
 
   planExercises PlanExercise[]
 }
 
 model PlanExercise {
   planId Int
-  moveId Int
+  exerciseId Int
   order  Int     @default(0)
   sets   Int?
   note   String?
 
   plan     Plan     @relation(fields: [planId], references: [id], onDelete: Cascade)
-  exercise Exercise @relation(fields: [moveId], references: [id], onDelete: Restrict)
+  exercise Exercise @relation(fields: [exerciseId], references: [id], onDelete: Restrict)
 
-  @@id([planId, moveId])
-  @@index([planId, moveId])
+  @@id([planId, exerciseId])
+  @@index([planId, exerciseId])
 }
 
 model WorkoutLog {
