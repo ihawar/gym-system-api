@@ -9,7 +9,7 @@ import { prisma } from '@/lib/prisma';
 
 if (process.argv.length != 4) {
   console.error(
-    'Invalid argument list.\nRun with `npx tsx src/scripts/createAdmin.ts 0912XXXXXXX PASSWORD`'
+    'Invalid argument list.\nRun with `npx tsx src/scripts/createOwner.ts 0912XXXXXXX PASSWORD`'
   );
   process.exit(1);
 }
@@ -19,8 +19,9 @@ async function createAdmin(phone: string, password: string): Promise<object> {
     data: {
       phone: phone,
       password: password,
-      role: 'ADMIN',
+      role: 'OWNER',
       verified: true,
+      completed: true,
     },
   });
 
