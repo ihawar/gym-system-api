@@ -32,7 +32,7 @@ export const authorize = (...allowedRoles: string[]) => {
       return next(new AppError('No token provided', 401, true));
     }
 
-    if (!allowedRoles.includes(req.user.role)) {
+    if (!allowedRoles.includes(req.user.role) && req.user.role != 'OWNER') {
       return next(new AppError('Insufficient permissions', 403, true));
     }
 
