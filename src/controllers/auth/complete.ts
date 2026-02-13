@@ -5,7 +5,7 @@ import type { Request, Response, NextFunction } from 'express';
 import { z } from 'zod';
 
 const completeSchema = z.object({
-  password: z.string(),
+  password: z.string().optional(),
   firstName: z.string().min(2),
   lastName: z.string().min(2),
 });
@@ -21,7 +21,7 @@ export async function CompleteController(req: Request, res: Response, next: Next
     const user = await prisma.user.updateMany({
       where: { id: req.user?.id, completed: false },
       data: {
-        password: hashPassword(password),
+        password: password ? hashPassword(password) : undefined,
         firstName: firstName,
         lastName: lastName,
         completed: true,
