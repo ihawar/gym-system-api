@@ -1,4 +1,6 @@
-export default function parsePhone(txt: string) {
+import { AppError } from '@/types/customError';
+
+export default function parsePhone(txt: string): string {
   let phone = '98';
   if (txt.startsWith('09') && txt.length == 11) {
     phone += txt.substring(1);
@@ -13,6 +15,6 @@ export default function parsePhone(txt: string) {
   if (/^989\d{9}$/.test(phone)) {
     return phone;
   } else {
-    throw Error('Invalid phone number format.');
+    throw new AppError('Invalid phone number format.', 401, true);
   }
 }
