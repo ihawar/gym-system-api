@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 // routes
 import authRouter from './routes/auth';
+import accountRouter from './routes/account';
 // middlewares
 import httpLogger from './lib/httpLogger';
 import { errorHandler, notFound } from './middlewares/error';
@@ -22,6 +23,7 @@ app.use(httpLogger);
 // routers
 // ----------
 app.use('/api/auth', authRouter);
+app.use('/api/account', accountRouter);
 
 // Example route usage
 app.get('/health', (req, res) => {
