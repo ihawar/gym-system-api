@@ -28,7 +28,7 @@ export async function ResetPasswordController(req: Request, res: Response, next:
     if (!otp) throw new AppError('Invalid credentials', 401, true);
 
     await prisma.user.update({
-      where: { phone: otp.phone },
+      where: { phone: otp.phone, blocked: false },
       data: { password: hashPassword(password) },
     });
     await prisma.oTP.delete({ where: { id: otp.id } });

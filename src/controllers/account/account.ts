@@ -7,7 +7,7 @@ export default async function accountController(req: Request, res: Response, nex
     if (!req.user || !req.user.id) throw new AppError('No token provided', 401, true);
 
     const user = await prisma.user.findUnique({
-      where: { id: req.user.id },
+      where: { id: req.user.id, blocked: false },
       select: {
         id: true,
         phone: true,
