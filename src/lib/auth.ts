@@ -1,3 +1,4 @@
+import { AppError } from '@/types/customError';
 import { SignJWT, jwtVerify, JWTPayload } from 'jose';
 
 const ACCESS_SECRET = new TextEncoder().encode(process.env.JWT_ACCESS_SECRET!);
@@ -39,16 +40,24 @@ export async function createRefreshToken(payload: { userId: number }): Promise<s
 
 // Verify access token & attach to req
 export async function verifyAccessToken(token: string): Promise<TokenPayload> {
-  const { payload } = await jwtVerify(token, ACCESS_SECRET, {
-    algorithms: ['HS256'],
-  });
-  return payload as TokenPayload;
+  try {
+    const { payload } = await jwtVerify(token, ACCESS_SECRET, {
+      algorithms: ['HS256'],
+    });
+    return payload as TokenPayload;
+  } catch (error) {
+    throw new AppError('Invalid access token.', 401, true);
+  }
 }
 
 // Verify refresh token
 export async function verifyRefreshToken(token: string): Promise<{ userId: number }> {
-  const { payload } = await jwtVerify(token, REFRESH_SECRET, {
-    algorithms: ['HS256'],
-  });
-  return payload as { userId: number };
+  try {
+    const { payload } = await jwtVerify(token, REFRESH_SECRET, {
+      algorithms: ['HS256'],
+    });
+    return payload as { userId: number };
+  } catch (error) {
+    throw new AppError('Invalid refresh token.', 401, true);
+  }
 }
