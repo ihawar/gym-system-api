@@ -46,6 +46,7 @@ export default async function usersController(req: Request, res: Response, next:
         where,
         select: {
           id: true,
+          phone: true,
           firstName: true,
           lastName: true,
           role: true,
