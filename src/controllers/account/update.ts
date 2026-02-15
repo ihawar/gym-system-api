@@ -2,6 +2,7 @@ import type { Request, Response, NextFunction } from 'express';
 import { prisma } from '@/lib/prisma';
 import { AppError } from '@/types/customError';
 import { z } from 'zod';
+import { Prisma } from '@prisma/client';
 
 const editSchema = z.object({
   firstName: z.string().min(1).max(100).optional(),
@@ -17,7 +18,7 @@ const editSchema = z.object({
   weight: z.number().min(0).max(1000).optional(),
 });
 
-export default async function editController(req: Request, res: Response, next: NextFunction) {
+export default async function updateController(req: Request, res: Response, next: NextFunction) {
   try {
     if (!req.user || !req.user.id) throw new AppError('No token provided', 401, true);
 
@@ -53,9 +54,11 @@ export default async function editController(req: Request, res: Response, next: 
         role: true,
       },
     });
-
     res.json(user);
   } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+      return next(new AppError('User not found.', 404, true));
+    }
     next(error);
   }
 }
