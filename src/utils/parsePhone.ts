@@ -15,6 +15,6 @@ export default function parsePhone(txt: string): string {
   if (/^989\d{9}$/.test(phone)) {
     return phone;
   } else {
-    throw new AppError('Invalid phone number format.', 401, true);
+    throw new AppError('Invalid phone number format.', 400, true);
   }
 }

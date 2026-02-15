@@ -12,7 +12,7 @@ export function errorHandler(err: any, req: Request, res: Response, next: NextFu
   let statusCode = 500;
   let message = 'Something went wrong';
 
-  // Our custom errors
+  // custom errors
   if (err instanceof AppError) {
     statusCode = err.statusCode;
     message = err.message;
@@ -20,6 +20,13 @@ export function errorHandler(err: any, req: Request, res: Response, next: NextFu
 
   logger.error(err);
 
+  // for access token errors
+  if (statusCode === 401) {
+    res.set(
+      'WWW-Authenticate',
+      'Bearer error="invalid_token", error_description="Invalid or expired token"'
+    );
+  }
   // Send response
   res.status(statusCode).json({
     success: false,

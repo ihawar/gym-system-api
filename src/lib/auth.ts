@@ -46,7 +46,7 @@ export async function verifyAccessToken(token: string): Promise<TokenPayload> {
     });
     return payload as TokenPayload;
   } catch (error) {
-    throw new AppError('Invalid access token.', 401, true);
+    throw new AppError('Invalid or expired access token', 401, true);
   }
 }
 
