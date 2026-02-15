@@ -13,7 +13,7 @@ export async function RefreshController(req: Request, res: Response, next: NextF
     const user = await prisma.user.findUnique({
       where: { id: userId, blocked: false },
     });
-    if (!user) throw new AppError('User not found or blocked', 401, true);
+    if (!user) throw new AppError('User not found or blocked', 404, true);
 
     // Create new access token
     const newAccessToken = await createAccessToken({
