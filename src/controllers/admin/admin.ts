@@ -1,6 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
 import { prisma } from '@/lib/prisma';
-import { AppError } from '@/types/customError';
 
 export default async function adminController(req: Request, res: Response, next: NextFunction) {
   try {
