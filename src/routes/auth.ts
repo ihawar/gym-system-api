@@ -1,4 +1,3 @@
-import { AccountController } from '@/controllers/auth/account';
 import { CompleteController } from '@/controllers/auth/complete';
 import { LoginController } from '@/controllers/auth/login';
 import { LogoutController } from '@/controllers/auth/logout';
@@ -19,7 +18,5 @@ router.post('/complete', authenticate, CompleteController);
 router.post('/resetPassword', ResetPasswordController);
 
 router.post('/logout', LogoutController);
-
-router.get('/me', authenticate, completed, AccountController);
 
 export default router;
