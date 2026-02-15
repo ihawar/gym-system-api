@@ -3,6 +3,7 @@ import cors from 'cors';
 // routes
 import authRouter from './routes/auth';
 import accountRouter from './routes/account';
+import adminRouter from './routes/admin';
 // middlewares
 import httpLogger from './lib/httpLogger';
 import { errorHandler, notFound } from './middlewares/error';
@@ -24,6 +25,7 @@ app.use(httpLogger);
 // ----------
 app.use('/api/auth', authRouter);
 app.use('/api/account', accountRouter);
+app.use('/api/admin', adminRouter);
 
 // Example route usage
 app.get('/health', (req, res) => {
